@@ -12,7 +12,7 @@ import (
 
 // Правило slug проверено по 32 живым каталогам ~/.claude/projects:
 // заменяется ЛЮБОЙ символ вне [A-Za-z0-9], а не только "/" как в спеке.
-// Иначе claude_con_ecc и pipe.final не находятся никогда.
+// Иначе my_project и pipe.final не находятся никогда.
 func TestSlugify(t *testing.T) {
 	tests := []struct {
 		name string
@@ -20,7 +20,7 @@ func TestSlugify(t *testing.T) {
 		want string
 	}{
 		{"обычный путь", "/home/user/Devs", "-home-user-Devs"},
-		{"подчёркивания", "/home/user/Devs/claude_con_ecc", "-home-user-Devs-claude-con-ecc"},
+		{"подчёркивания", "/home/user/Devs/my_project", "-home-user-Devs-my-project"},
 		{"точки", "/home/user/Devs/pipe.final", "-home-user-Devs-pipe-final"},
 		{"скрытый каталог", "/home/user/.claude", "-home-user--claude"},
 		{"регистр сохраняется", "/home/user/Devs/ChatBot", "-home-user-Devs-ChatBot"},

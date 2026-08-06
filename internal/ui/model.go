@@ -438,7 +438,7 @@ func (m *Model) viewportHeight() int {
 func (m *Model) View() tea.View {
 	if !m.ready {
 		// Размер окна ещё не пришёл — рисовать нечего, но и падать нельзя.
-		return altView("claude_con — waiting for window size…")
+		return altView("ccon — waiting for window size…")
 	}
 
 	p := m.pane()

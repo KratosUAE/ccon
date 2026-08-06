@@ -38,7 +38,7 @@ func sampleEvents() []parse.Event {
 
 func sampleModel(w, h int) *Model {
 	m := New(Options{
-		Project: "claude_con_ecc",
+		Project: "ccon_ecc",
 		Model:   "claude-opus-5",
 		Effort:  "high",
 		Mode:    "archive",
@@ -148,16 +148,16 @@ func TestFooterFitsWidth(t *testing.T) {
 }
 
 func TestHeader(t *testing.T) {
-	got := Header("claude_con_ecc", "claude-opus-5", "high", "archive", NewTheme(), 100)
+	got := Header("ccon_ecc", "claude-opus-5", "high", "archive", NewTheme(), 100)
 
-	for _, want := range []string{"claude_con", "claude_con_ecc", "opus-5", "effort:high", "archive"} {
+	for _, want := range []string{"ccon", "ccon_ecc", "opus-5", "effort:high", "archive"} {
 		if !strings.Contains(got, want) {
 			t.Errorf("в шапке нет %q:\n%s", want, got)
 		}
 	}
 
 	for _, w := range []int{40, 60, 80, 120} {
-		line := Header("claude_con_ecc", "claude-opus-5", "high", "archive", NewTheme(), w)
+		line := Header("ccon_ecc", "claude-opus-5", "high", "archive", NewTheme(), w)
 		if strings.Contains(line, "\n") {
 			t.Errorf("ширина %d: шапка расползлась на несколько строк", w)
 		}
@@ -205,7 +205,7 @@ func TestViewBeforeWindowSize(t *testing.T) {
 	if view.Content == "" {
 		t.Errorf("пустой кадр до первого WindowSizeMsg")
 	}
-	if !strings.Contains(view.Content, "claude_con") {
+	if !strings.Contains(view.Content, "ccon") {
 		t.Errorf("заглушка не называет себя:\n%s", view.Content)
 	}
 }

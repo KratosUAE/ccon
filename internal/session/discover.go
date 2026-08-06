@@ -99,7 +99,7 @@ func (e *DiscoverError) Unwrap() error { return e.Err }
 // Slugify превращает путь каталога в имя каталога хранилища транскриптов.
 //
 // Claude Code заменяет ЛЮБОЙ символ вне [A-Za-z0-9] на дефис, а не только "/",
-// как написано в спеке (claude_con_ecc → claude-con-ecc, pipe.final →
+// как написано в спеке (my_project → my-project, pipe.final →
 // pipe-final, /home/user/.claude → -home-user--claude).
 //
 // Точность доказательства: в ~/.claude/projects лежат 32 каталога, но исходный

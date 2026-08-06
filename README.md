@@ -11,32 +11,13 @@ The reason it exists: while the main thread waits on a subagent, it **writes not
 only the main transcript shows silence for the whole time the delegate works. `ccon` follows every
 file of the session at once and picks up new subagent streams as they appear.
 
-```
-claude_con ─ myproject ─ opus-5 ─ effort:high ─────────────────────────── ● live
-[1]transcript  [2]mcp  [3]files
-11:53:40  main                Agent      test-writer cover the accumulator
-11:53:42  test-writer         Read       cost/accumulate.go
-11:53:44  test-writer         mcp__fil…  {"pattern":"*_test.go"}
-11:53:47  test-writer         Edit       cost/accumulate_test.go
-11:53:51  test-writer         Bash       go test -race ./...
-11:53:58  test-writer         │          tests green, coverage 91%
-11:54:02  main                mcp__con…  {"query":"viewport SetContentLines"}
-11:54:05  main                Write      proj/notes.md
-11:54:09  main                mcp__fil…  {"path":"docs/notes.md"}
-11:54:13  main                Agent      code-reviewer review the slice
-────────────────────────────────────────────────────────────────────────────────
-MODELS    claude-opus-5 ×512
-TOKENS    in 5.2k
-          out 817k
-          cache read 71.2M
-          write 6.4M (5m 5.8M · 1h 610k)
-COST      $128.40 at API rates (cache 89%) · Max subscription, not actually bil…
-AGENTS    test-writer 5 · main 5
-FILTER    (none)
-[/] filter  [f] follow  [w] wrap: off  [e] err: off  [s] sys: on  [q] quit
-```
+![transcript tab](docs/screenshots/transcript.png)
 
 Read-only: no network calls, nothing is ever written into `~/.claude`.
+
+Every frame below is a real render of `examples/demo-session.jsonl`, a synthetic session shipped
+with the repository — try it with `ccon examples/demo-session.jsonl`, no session of your own
+required.
 
 ## Three tabs
 
@@ -50,31 +31,20 @@ subagents, system records and tool errors. This is the frame above.
 which method, the arguments, the outcome and how long it took. A call slower than five seconds is
 highlighted, so a stalling handle is visible without reading the numbers.
 
-```
-[1]transcript  [2]mcp  [3]files
-11:53:44  test-writer         filesystem    search_files             ok     1.2s
-11:54:02  main                context7      query-docs               ERR    8.4s
-11:54:09  main                filesystem    read_text_file           ·
-────────────────────────────────────────────────────────────────────────────────
-FILTER    (none)   mcp: 3 calls · 1 err · 0 denied · filesystem 2
-```
+![mcp tab](docs/screenshots/mcp.png)
 
 **`[3] files`** — file operations only: who, which operation (`R` read, `W` write, `E` edit,
 `N` notebook edit), the full path and the outcome. The path is clipped from the head at a
 component boundary, because the tail is what identifies the file. There is no duration column
 here on purpose: reads and edits sit around 90 ms, so it would be noise.
 
-```
-[1]transcript  [2]mcp  [3]files
-11:53:42  test-writer         R  /home/u/proj/internal/cost/accumulate.go   ok
-11:53:47  test-writer         E  …/u/proj/internal/cost/accumulate_test.go  ok
-11:54:05  main                W  /home/u/proj/docs/notes.md                 DENY
-────────────────────────────────────────────────────────────────────────────────
-FILTER    (none)   files: 3 ops · R 1 · W 1 · E 1
-```
+![files tab](docs/screenshots/files.png)
 
 Each tab keeps its own filter, its own toggles and its own reading position: switching back and
-forth loses neither. Every call line is completed with its outcome in place as soon as the result
+forth loses neither. Typing `/code-reviewer` on the `mcp` tab leaves only what that subagent
+called — while the footer keeps counting the whole buffer, not the visible slice:
+
+![filtering by subagent](docs/screenshots/filter.png) Every call line is completed with its outcome in place as soon as the result
 arrives — no second line appears.
 
 ## Call outcomes

@@ -32,7 +32,7 @@ type Agent struct {
 
 // Header — верхняя строка: проект, модель, эффорт и индикатор режима справа.
 func Header(project, model, effort, mode string, th *Theme, width int) string {
-	left := "claude_con ─ " + project
+	left := "ccon ─ " + project
 	if model != "" {
 		left += " ─ " + shortModel(model)
 	}

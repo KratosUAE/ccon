@@ -59,7 +59,7 @@ func TestSnapshotFrame(t *testing.T) {
 
 	for _, size := range []struct{ w, h int }{{80, 20}, {40, 16}, {80, 6}} {
 		m := New(Options{
-			Project: "claude_con_ecc", Model: "claude-opus-5", Effort: "high",
+			Project: "ccon_ecc", Model: "claude-opus-5", Effort: "high",
 			Mode: ModeArchive, Events: events, Totals: totals, Agents: agents,
 		})
 		m.Update(tea.WindowSizeMsg{Width: size.w, Height: size.h})
